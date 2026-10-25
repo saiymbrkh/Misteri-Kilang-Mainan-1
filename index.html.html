@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Misteri Kilang Mainan — Detektif Kata Adjektif</title>
+<style>
+:root{
+  --ink:#20233d;--purple:#7654d6;--purple2:#a18af3;--pink:#ff7eaa;
+  --yellow:#ffd66b;--mint:#71dfc0;--cream:#fffaf0;--red:#ef5264;
+  --panel:rgba(255,255,255,.94);--shadow:0 12px 30px rgba(31,28,69,.16)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:var(--ink);background:#eeeaff}
+button{font:inherit;cursor:pointer;border:0}
+button:focus-visible{outline:4px solid #ffcf56;outline-offset:3px}
+.app{min-height:100vh;padding:16px;background:
+radial-gradient(circle at 8% 8%,#fff5c9 0 5%,transparent 5.5%),
+radial-gradient(circle at 92% 16%,#fbc9df 0 6%,transparent 6.5%),
+linear-gradient(145deg,#e8e5ff,#d8f6f0)}
+.topbar{max-width:1100px;margin:0 auto 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:1000;font-size:clamp(18px,3vw,25px)}
+.brand-icon{display:grid;place-items:center;background:var(--yellow);border:3px solid white;border-radius:16px;width:48px;height:48px;font-size:27px;box-shadow:0 5px 0 #e7b74d}
+.pill{background:#fff;border-radius:999px;padding:9px 14px;font-weight:800;font-size:13px;box-shadow:0 4px 0 rgba(61,51,111,.09)}
+main{max-width:1100px;margin:auto}
+.screen{display:none}.screen.active{display:block}
+.panel{background:var(--panel);border:3px solid white;border-radius:26px;box-shadow:var(--shadow);padding:clamp(18px,4vw,32px)}
+h1,h2,h3,p{margin-top:0}h1{font-size:clamp(30px,6vw,54px);line-height:1.04;margin-bottom:14px;letter-spacing:-1.5px}h2{font-size:clamp(23px,4vw,34px);margin-bottom:10px}p{line-height:1.55}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}
+.kicker{display:inline-flex;align-items:center;gap:7px;background:#eee8ff;color:#6044bc;border-radius:999px;padding:8px 12px;font-weight:900;font-size:12px;text-transform:uppercase;letter-spacing:.7px;margin-bottom:16px}
+.hero p{font-size:17px;max-width:570px}
+.art{min-height:300px;position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(#b9b2ff 0 48%,#8170c9 48% 52%,#f5c98c 52%);border:4px solid white;display:flex;align-items:end;justify-content:center;padding:12px}
+.factory-sign{position:absolute;top:18px;left:50%;transform:translateX(-50%);background:#fff6d4;border:4px solid #7450b9;border-radius:13px;padding:8px 12px;font-weight:1000;text-align:center;white-space:nowrap;box-shadow:0 5px 0 #5a4199}
+.window{position:absolute;top:83px;width:72px;height:86px;background:#c9f7ff;border:6px solid #7351b7;border-radius:15px}
+.window.left{left:14%}.window.right{right:14%}
+.conveyor{position:absolute;bottom:42px;left:0;right:0;height:54px;background:#4a456b;border-top:8px solid #78749c;border-bottom:8px solid #78749c}
+.toy{position:absolute;bottom:80px;font-size:clamp(34px,5vw,55px);filter:drop-shadow(0 5px 2px #4b396055);animation:bob 2.4s ease-in-out infinite}
+.toy.t1{left:19%}.toy.t2{left:44%;animation-delay:.4s}.toy.t3{right:17%;animation-delay:.8s}
+.detective{position:absolute;bottom:75px;left:39%;font-size:clamp(55px,8vw,85px);z-index:2;filter:drop-shadow(0 5px 2px #44366b55)}
+.monster{position:absolute;bottom:72px;right:7%;font-size:clamp(55px,8vw,82px);z-index:2;filter:drop-shadow(0 5px 2px #44366b55);transition:right .35s ease,transform .35s ease}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.btn{border-radius:15px;padding:14px 20px;font-weight:1000;transition:transform .12s,filter .12s;box-shadow:0 5px 0 rgba(37,29,79,.17)}
+.btn:hover{filter:brightness(1.04);transform:translateY(-2px)}.btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(37,29,79,.17)}
+.btn-primary{background:var(--purple);color:white}.btn-yellow{background:var(--yellow);color:#483600}.btn-soft{background:#eee9ff;color:#5c43ae}.btn-danger{background:#ff7380;color:white}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.muted{color:#6d6b85}.small{font-size:13px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:22px 0}
+.rule{background:#f6f3ff;border-radius:18px;padding:15px}.rule .emoji{font-size:29px}.rule strong{display:block;margin:6px 0}
+.game-top{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;margin-bottom:14px}
+.progress-wrap{height:12px;background:#ded9f4;border-radius:999px;overflow:hidden;margin-top:8px}.progress{height:100%;width:0;background:linear-gradient(90deg,var(--mint),#64b5f6);transition:width .3s}
+.stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:end}.stat{background:white;border-radius:14px;padding:10px 12px;font-weight:900;box-shadow:0 3px 0 #ded9f4}
+.scene{height:180px;position:relative;overflow:hidden;border-radius:22px;background:linear-gradient(#c5f3ff 0 62%,#9ad7a2 62% 100%);border:3px solid white;margin-bottom:16px}
+.scene:before{content:"";position:absolute;bottom:0;left:0;right:0;height:30px;background:repeating-linear-gradient(90deg,#e4b77b 0 65px,#d5a66a 65px 70px)}
+.shelf{position:absolute;left:0;right:0;top:28px;height:10px;background:#a96c43;box-shadow:0 4px 0 #7c4c39}
+.scene-toys{position:absolute;top:0;left:0;right:0;height:100%;display:flex;align-items:center;justify-content:space-evenly;font-size:clamp(30px,5vw,52px)}
+.scene-label{position:absolute;top:10px;left:12px;background:#fff;border-radius:10px;padding:5px 9px;font-size:12px;font-weight:1000}
+.chase-banner{display:none;background:#fff0f1;border:2px solid #ffb2b9;border-radius:14px;padding:10px 12px;margin-bottom:12px;font-weight:900;color:#b42b47}
+.chase-banner.show{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.chase-track{height:9px;background:#f7d2d7;border-radius:999px;overflow:hidden;min-width:90px;flex:1;max-width:220px}.chase-fill{height:100%;width:20%;background:var(--red);transition:width .35s}
+.question-card{background:white;border-radius:22px;padding:clamp(16px,3vw,26px);box-shadow:0 5px 0 #e2def4}
+.question-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:12px;font-weight:1000;border-radius:999px;padding:7px 10px;background:#e9f9f3;color:#16795f}
+.object-row{display:flex;align-items:center;gap:18px;background:#fff9e9;border:2px dashed #e9cb82;border-radius:18px;padding:14px;margin:15px 0}
+.object-emoji{font-size:clamp(50px,8vw,76px);min-width:78px;text-align:center}
+.object-title{font-size:21px;font-weight:1000;margin-bottom:5px}
+.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.answer{background:#f3f0ff;border:2px solid #e1dafd;border-radius:15px;padding:14px;font-weight:900;color:#373052;text-align:left;min-height:55px}
+.answer:hover{background:#e8e1ff;border-color:#a997ef}
+.answer.correct{background:#d9faeb;border-color:#56c99c}.answer.wrong{background:#ffe1e4;border-color:#f27d89}
+.feedback{min-height:28px;margin:12px 0 0;font-weight:900}.feedback.good{color:#16815d}.feedback.bad{color:#c1374c}
+.category-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.category{background:#f3f0ff;border:2px dashed #b4a5ef;border-radius:16px;padding:14px 8px;text-align:center;min-height:92px;font-weight:1000}
+.category .emoji{font-size:27px;display:block;margin-bottom:6px}
+.word-bank{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.word-chip{background:#fff1c8;border:2px solid #edcf76;border-radius:12px;padding:10px 13px;font-weight:1000;cursor:grab}
+.word-chip.used{opacity:.35;pointer-events:none}
+.category.dragover{background:#e4faef;border-color:#58c89b}
+.hidden{display:none!important}
+.end-emoji{font-size:70px}
+.result-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0}
+.result-card{background:#f5f2ff;border-radius:16px;padding:16px}
+.result-card strong{font-size:26px;display:block}
+.footer{text-align:center;color:#77718e;font-size:12px;padding:18px}
+@media(max-width:720px){.hero{grid-template-columns:1fr}.art{min-height:245px}.rules{grid-template-columns:1fr}.game-top{grid-template-columns:1fr}.stats{justify-content:start}.category-grid{grid-template-columns:repeat(2,1fr)}.object-row{gap:8px}.object-emoji{min-width:55px}.answers{grid-template-columns:1fr}.factory-sign{font-size:12px}.scene{height:150px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="brand-icon">🔎</div><div>MISTERI KILANG MAINAN<div class="small muted">Detektif Kata Adjektif · BM Tahun 2</div></div></div>
+    <div class="pill">📚 Ukuran · Warna · Bentuk · Sifat</div>
+  </header>
+  <main>
+    <section class="screen active" id="startScreen">
+      <div class="panel hero">
+        <div>
+          <div class="kicker">🕵️ Misi detektif cilik</div>
+          <h1>Siapa curi<br><span style="color:var(--purple)">mainan ajaib?</span></h1>
+          <p>Sebuah kilang mainan ditutup selepas koleksi mainannya hilang. Masuk ke kilang, cari petunjuk dan selesaikan cabaran kata adjektif. Tetapi awas… Momo sedang memerhatikan kamu!</p>
+          <div class="row"><button class="btn btn-primary" id="startBtn">MULA MENYIASAT ▶</button><button class="btn btn-soft" id="howBtn">Cara bermain</button></div>
+          <div class="rules hidden" id="howRules">
+            <div class="rule"><span class="emoji">👀</span><strong>Kenal pasti</strong><span class="small">Lihat objek dan pilih kata adjektif yang sesuai.</span></div>
+            <div class="rule"><span class="emoji">🧺</span><strong>Kelaskan</strong><span class="small">Seret perkataan ke kategori yang betul.</span></div>
+            <div class="rule"><span class="emoji">🏃</span><strong>Elak Momo</strong><span class="small">Jawapan salah mendekatkan Momo. Jawapan betul membantu kamu melarikan diri.</span></div>
+          </div>
+        </div>
+        <div class="art" aria-label="Ilustrasi kilang mainan">
+          <div class="factory-sign">KILANG MAINAN<br>DITUTUP! ⚠️</div>
+          <div class="window left"></div><div class="window right"></div>
+          <div class="conveyor"></div>
+          <div class="toy t1">🧸</div><div class="toy t2">🟥</div><div class="toy t3">🚂</div>
+          <div class="detective">🕵️</div><div class="monster">👾</div>
+        </div>
+      </div>
+      <div class="rules">
+        <div class="rule"><span class="emoji">🎯</span><strong>Objektif 1</strong><span class="small">Mengenal pasti kata adjektif berdasarkan objek.</span></div>
+        <div class="rule"><span class="emoji">🧠</span><strong>Objektif 2</strong><span class="small">Mengelaskan kata adjektif mengikut empat kategori.</span></div>
+        <div class="rule"><span class="emoji">💗</span><strong>Jangan putus asa!</strong><span class="small">Ada 3 nyawa. Jika tertangkap, kamu boleh cuba semula.</span></div>
+      </div>
+    </section>
+
+    <section class="screen" id="gameScreen">
+      <div class="game-top">
+        <div><div class="small muted" id="stageLabel">PENTAKSIRAN 1 · KENAL PASTI</div><div class="progress-wrap"><div class="progress" id="progress"></div></div></div>
+        <div class="stats"><div class="stat">⭐ Markah: <span id="score">0</span></div><div class="stat">❤️ <span id="lives">3</span></div><div class="stat">🔎 <span id="counter">1/8</span></div></div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">LORONG KILANG MAINAN</div><div class="shelf"></div>
+        <div class="scene-toys" id="sceneToys">🧸　🟥　🧊　🚂</div>
+      </div>
+      <div class="chase-banner" id="chaseBanner"><span>🚨 MOMO SEDANG MENGEJAR!</span><span class="chase-track"><span class="chase-fill" id="chaseFill" style="display:block"></span></span><span id="chasePercent">20%</span></div>
+      <div class="question-card" id="questionCard">
+        <div class="question-meta"><span class="tag" id="objectiveTag">OBJEKTIF 1 · KENAL PASTI</span><span class="small muted" id="questionNum">Petunjuk 1</span></div>
+        <h2 id="questionTitle">Apakah kata adjektif yang sesuai?</h2>
+        <div class="object-row"><div class="object-emoji" id="objectEmoji">⚽</div><div><div class="object-title" id="objectTitle">Bola merah</div><div id="objectDesc">Perhatikan objek dengan teliti.</div></div></div>
+        <div id="mcArea"><div class="small muted" id="questionPrompt">Pilih kata adjektif yang ditunjukkan oleh objek.</div><div class="answers" id="answers"></div></div>
+        <div id="sortArea" class="hidden"><p><strong>Seret setiap perkataan ke kategori yang betul.</strong></p><div class="word-bank" id="wordBank"></div><div class="category-grid">
+          <div class="category" data-cat="ukuran"><span class="emoji">📏</span>Ukuran</div>
+          <div class="category" data-cat="warna"><span class="emoji">🎨</span>Warna</div>
+          <div class="category" data-cat="bentuk"><span class="emoji">🔷</span>Bentuk</div>
+          <div class="category" data-cat="sifat"><span class="emoji">🧸</span>Sifat</div>
+        </div></div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+        <div class="row" style="justify-content:space-between;margin-top:14px"><span class="small muted" id="hint">💡 Tip: fikirkan perkataan yang menerangkan objek.</span><button class="btn btn-primary hidden" id="nextBtn">Seterusnya ➜</button></div>
+      </div>
+    </section>
+
+    <section class="screen" id="endScreen">
+      <div class="panel" style="text-align:center">
+        <div class="end-emoji" id="endEmoji">🏆</div><h1 id="endTitle">Misi berjaya!</h1><p id="endMessage">Kamu berjaya menyelesaikan misteri kilang mainan.</p>
+        <div class="result-grid"><div class="result-card"><span class="muted small">Markah keseluruhan</span><strong id="finalScore">0</strong><span class="small">mata</span></div><div class="result-card"><span class="muted small">Jawapan betul</span><strong id="finalCorrect">0/8</strong><span class="small">soalan</span></div><div class="result-card"><span class="muted small">Kenal pasti</span><strong id="finalIdentify">0/4</strong><span class="small">Objektif 1</span></div><div class="result-card"><span class="muted small">Mengelaskan</span><strong id="finalSort">0/4</strong><span class="small">Objektif 2</span></div></div>
+        <p id="finalFeedback"></p><div class="row" style="justify-content:center"><button class="btn btn-primary" id="restartBtn">Main semula 🔄</button><button class="btn btn-soft" id="homeBtn">Menu utama</button></div>
+      </div>
+    </section>
+    <div class="footer">Dibina untuk pembelajaran Bahasa Melayu Tahun 2 · Misteri Kilang Mainan</div>
+  </main>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const identifyQuestions = [
+ {emoji:"🔴",title:"Bola merah",desc:"Bola ini berwarna merah.",prompt:"Apakah kata adjektif warna bagi bola ini?",answer:"merah",options:["bulat","merah","lembut","panjang"],cat:"warna"},
+ {emoji:"📏",title:"Pembaris panjang",desc:"Pembaris ini mempunyai ukuran yang panjang.",prompt:"Apakah kata adjektif ukuran bagi pembaris ini?",answer:"panjang",options:["kuning","kasar","panjang","bulat"],cat:"ukuran"},
+ {emoji:"🧊",title:"Kiub ais",desc:"Kiub ais ini mempunyai permukaan yang keras.",prompt:"Apakah kata adjektif sifat yang sesuai?",answer:"keras",options:["merah","keras","bujur","pendek"],cat:"sifat"},
+ {emoji:"⚽",title:"Bola",desc:"Bola ini berbentuk bulat.",prompt:"Apakah kata adjektif bentuk bagi bola ini?",answer:"bulat",options:["besar","lembut","bulat","hijau"],cat:"bentuk"}
+];
+const sortWords = [
+ {word:"besar",cat:"ukuran"},{word:"biru",cat:"warna"},{word:"segi tiga",cat:"bentuk"},{word:"lembut",cat:"sifat"}
+];
+let state={stage:0,q:0,score:0,lives:3,wrongStreak:0,chase:0,correctIdentify:0,correctSort:0,answered:false,dragCorrect:0,sortPlaced:[],gameOver:false};
+let chaseTimer=null, chaseActive=false, sortDone=false;
+function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id).classList.add("active")}
+function startGame(){clearInterval(chaseTimer);state={stage:0,q:0,score:0,lives:3,wrongStreak:0,chase:0,correctIdentify:0,correctSort:0,answered:false,dragCorrect:0,sortPlaced:[],gameOver:false};chaseActive=false;sortDone=false;showScreen("gameScreen");renderQuestion()}
+$("startBtn").onclick=startGame;
+$("howBtn").onclick=()=> $("howRules").classList.toggle("hidden");
+$("restartBtn").onclick=startGame;
+$("homeBtn").onclick=()=>{clearInterval(chaseTimer);showScreen("startScreen")};
+function updateStats(){ $("score").textContent=state.score;$("lives").textContent=state.lives;$("counter").textContent=state.stage===0?`${state.q+1}/4`:`${Math.min(state.sortPlaced.length+1,4)}/4`;$("progress").style.width=((state.stage*4+state.q)/8*100)+"%"}
+function renderQuestion(){
+ state.answered=false;sortDone=false;$("feedback").textContent="";$("feedback").className="feedback";$("nextBtn").classList.add("hidden");
+ $("mcArea").classList.toggle("hidden",state.stage===1);$("sortArea").classList.toggle("hidden",state.stage===0);
+ $("stageLabel").textContent=state.stage===0?"PENTAKSIRAN 1 · KENAL PASTI":"PENTAKSIRAN 1 · KELASKAN";
+ $("objectiveTag").textContent=state.stage===0?"OBJEKTIF 1 · KENAL PASTI":"OBJEKTIF 2 · MENGELASKAN";
+ $("questionNum").textContent=state.stage===0?`Petunjuk ${state.q+1} daripada 4`:`Cabaran ${state.q+1} daripada 4`;
+ if(state.stage===0){
+   const q=identifyQuestions[state.q];$("questionTitle").textContent="Cari kata adjektif yang betul!";$("objectEmoji").textContent=q.emoji;$("objectTitle").textContent=q.title;$("objectDesc").textContent=q.desc;$("questionPrompt").textContent=q.prompt;
+   $("answers").innerHTML="";q.options.forEach(opt=>{const b=document.createElement("button");b.className="answer";b.textContent=opt;b.onclick=()=>answerIdentify(opt,b);$("answers").appendChild(b)});
+ }else{
+   $("questionTitle").textContent="Susun bukti di dalam kategori!";$("objectEmoji").textContent="🧺";$("objectTitle").textContent="Empat petunjuk ditemui";$("objectDesc").textContent="Kelaskan keempat-empat perkataan. Setiap perkataan hanya perlu diletakkan sekali.";
+   $("wordBank").innerHTML="";let words=[...sortWords].sort(()=>Math.random()-.5);
+   words.forEach((item,i)=>{const chip=document.createElement("button");chip.className="word-chip";chip.textContent=item.word;chip.draggable=true;chip.dataset.word=item.word;chip.dataset.cat=item.cat;chip.dataset.idx=i;chip.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",item.word)});chip.addEventListener("click",()=>{if(chip.classList.contains("used"))return;document.querySelectorAll(".word-chip").forEach(c=>c.style.outline="");chip.style.outline="3px solid #7654d6";state.selectedWord=item.word});$("wordBank").appendChild(chip)});
+   document.querySelectorAll(".category").forEach(cat=>{cat.ondragover=e=>{e.preventDefault();cat.classList.add("dragover")};cat.ondragleave=()=>cat.classList.remove("dragover");cat.ondrop=e=>{e.preventDefault();cat.classList.remove("dragover");placeWord(e.dataTransfer.getData("text/plain"),cat.dataset.cat)};cat.onclick=()=>{if(state.selectedWord)placeWord(state.selectedWord,cat.dataset.cat)}});
+ }
+ updateStats();updateChaseUI();
+}
+function answerIdentify(opt,btn){
+ if(state.answered)return;const q=identifyQuestions[state.q];const right=opt===q.answer;
+ document.querySelectorAll(".answer").forEach(b=>{b.disabled=true;if(b.textContent===q.answer)b.classList.add("correct")});if(!right)btn.classList.add("wrong");
+ if(right){state.score+=10;state.correctIdentify++;state.wrongStreak=0;state.chase=Math.max(0,state.chase-28);$("feedback").textContent="Tepat sekali! "+q.answer+" ialah kata adjektif "+q.cat+". Momo semakin jauh!";$("feedback").className="feedback good"}
+ else{state.wrongStreak++;state.chase=Math.min(100,state.chase+30);state.lives--; $("feedback").textContent="Belum tepat! Jawapan yang betul ialah “"+q.answer+"”. Momo semakin dekat!";$("feedback").className="feedback bad"}
+ state.answered=true;updateStats();updateChaseUI();
+ if(state.lives<=0||state.chase>=100){triggerCaught();return}
+ if(state.wrongStreak>=2||state.chase>=55){startChase()}
+ $("nextBtn").classList.remove("hidden");$("nextBtn").textContent=state.q===3?"Ke pengelasan ➜":"Seterusnya ➜";
+}
+function placeWord(word,cat){
+ if(!word||state.answered||state.sortPlaced.includes(word))return;
+ const item=sortWords.find(w=>w.word===word);if(!item)return;
+ state.sortPlaced.push(word);const chip=[...document.querySelectorAll(".word-chip")].find(c=>c.dataset.word===word);if(chip)chip.classList.add("used");
+ const target=document.querySelector(`.category[data-cat="${cat}"]`);
+ const correct=item.cat===cat;
+ if(correct){state.score+=10;state.correctSort++;state.dragCorrect++;state.chase=Math.max(0,state.chase-12);$("feedback").textContent=`Betul! “${word}” ialah kata adjektif ${cat}.`; $("feedback").className="feedback good";if(target)target.style.borderStyle="solid"}
+ else{state.lives--;state.wrongStreak++;state.chase=Math.min(100,state.chase+24);$("feedback").textContent=`Hampir! “${word}” sepatutnya dalam kategori ${item.cat}.`; $("feedback").className="feedback bad"}
+ if(target){target.insertAdjacentHTML("beforeend",`<div class="small" style="margin-top:5px">${word} ${correct?"✓":"↺"}</div>`)}
+ updateStats();updateChaseUI();
+ if(state.lives<=0||state.chase>=100){triggerCaught();return}
+ if(state.wrongStreak>=2||state.chase>=55)startChase();
+ if(state.sortPlaced.length===4){state.answered=true;$("nextBtn").classList.remove("hidden");$("nextBtn").textContent="Lihat keputusan 🏆"}
+}
+function updateChaseUI(){
+ const banner=$("chaseBanner");banner.classList.toggle("show",chaseActive||state.chase>0);
+ $("chaseFill").style.width=Math.max(4,state.chase)+"%";$("chasePercent").textContent=state.chase+"%";
+ const monster=document.querySelector(".monster");if(monster){monster.style.right=(7+state.chase*.48)+"%";monster.style.transform=`scale(${1+state.chase/250})`}
+}
+function startChase(){
+ if(chaseActive)return;chaseActive=true;$("chaseBanner").classList.add("show");$("chaseBanner").firstElementChild.textContent="🚨 MOMO SEDANG MENGEJAR!";
+ $("feedback").textContent="LARI! Jawab cabaran seterusnya dengan betul untuk menjauhkan diri!";$("feedback").className="feedback bad";
+ // Chase advances gently while active; correct answers push it back. A safe distance ends the chase.
+ chaseTimer=setInterval(()=>{
+   if(!chaseActive||!$("gameScreen").classList.contains("active"))return;
+   state.chase=Math.min(100,state.chase+4);updateChaseUI();
+   if(state.chase>=100||state.lives<=0)triggerCaught();
+ },1400);
+}
+function endChaseIfSafe(){
+ if(chaseActive&&state.chase<=0){chaseActive=false;clearInterval(chaseTimer);$("chaseBanner").classList.remove("show");$("feedback").textContent="Kamu sudah jauh! Momo berhenti mengejar. Teruskan misi!";$("feedback").className="feedback good"}
+}
+function triggerCaught(){
+ if(state.gameOver)return;state.gameOver=true;clearInterval(chaseTimer);chaseActive=false;
+ $("questionCard").innerHTML=`<div style="text-align:center;padding:24px 8px"><div style="font-size:72px">👾💨</div><h2>Alamak! Momo tangkap kamu!</h2><p>Misi terhenti buat sementara. Jangan putus asa, detektif! Cuba semula cabaran ini.</p><button class="btn btn-primary" id="retryCaught">Cuba semula 🔄</button> <button class="btn btn-soft" id="quitCaught">Menu utama</button></div>`;
+ $("retryCaught").onclick=startGame;$("quitCaught").onclick=()=>showScreen("startScreen");
+}
+$("nextBtn").onclick=()=>{
+ if(state.gameOver)return;endChaseIfSafe();
+ if(state.stage===0){if(state.q<3){state.q++;state.wrongStreak=0;renderQuestion()}else{state.stage=1;state.q=0;state.wrongStreak=0;state.chase=Math.max(0,state.chase-20);renderQuestion()}}
+ else{finishGame()}
+};
+function finishGame(){
+ clearInterval(chaseTimer);chaseActive=false;showScreen("endScreen");
+ const total=state.correctIdentify+state.correctSort;const success=total>=6;
+ $("endEmoji").textContent=success?"🏆":"🕵️";$("endTitle").textContent=success?"Misi berjaya!":"Penyiasatan selesai!";
+ $("endMessage").textContent=success?"Tahniah! Kamu berjaya mengatasi Momo dan menyelesaikan misteri kilang mainan.":"Bagus kerana mencuba! Teruskan berlatih supaya lebih mahir mengenal pasti dan mengelaskan kata adjektif.";
+ $("finalScore").textContent=state.score;$("finalCorrect").textContent=total+"/8";$("finalIdentify").textContent=state.correctIdentify+"/4";$("finalSort").textContent=state.correctSort+"/4";
+ $("finalFeedback").textContent=total===8?"Hebat! Semua jawapan betul!":total>=6?"Bagus! Semak semula kategori yang masih mengelirukan.":"Cuba lagi. Ingat: ukuran, warna, bentuk dan sifat.";
+}
+</script>
+</body>
+</html>
